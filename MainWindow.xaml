@@ -66,9 +66,20 @@
                     <TextBox Width="600" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Search songs" Foreground="Gray" Background="white"></TextBox>
                     <Button Content="Import songs" Width="120" Height="30" HorizontalAlignment="Right" Background="{StaticResource AccentBrush}"></Button>
                 </Grid>
+                <DataGrid Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header=""></DataGridTextColumn>
+                        <DataGridTextColumn Header="Title" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Artist" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Album" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Genre" Width="*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Duration" Width="*"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </Grid>
-           
+
+
     </DockPanel>
 
 </Window>
