@@ -150,7 +150,7 @@
                                  Height="30"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Center"
-                                 Text="Search songs"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                  Foreground="Gray"
                                  Background="White" />
                         <Button Content="Import songs"
@@ -161,7 +161,7 @@
                                 IsEnabled="False" />
                     </Grid>
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Songs}">
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding SongsView}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="50" />
                             <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" />

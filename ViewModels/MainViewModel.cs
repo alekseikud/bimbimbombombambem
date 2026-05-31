@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using WpfApp3.Infrastructure;
 using WpfApp3.Models;
@@ -15,6 +16,8 @@ public class MainViewModel : BaseViewModel
     private readonly LibraryService _libraryService = new();
     private MusicLibrary _library = new();
     private bool _isLibraryOpen;
+    private string _searchText = "";
+    private ICollectionView? _songsView;
 
     public MainViewModel()
     {
@@ -33,6 +36,19 @@ public class MainViewModel : BaseViewModel
 
     public ObservableCollection<Song> Songs => _library.Songs;
     public ObservableCollection<Playlist> Playlists => _library.Playlists;
+    public ICollectionView? SongsView => _songsView;
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (SetProperty(ref _searchText, value))
+            {
+                _songsView?.Refresh();
+            }
+        }
+    }
 
     public bool IsLibraryOpen
     {
@@ -102,9 +118,12 @@ public class MainViewModel : BaseViewModel
     {
         DetachLibrary();
         _library = library;
+        _songsView = CollectionViewSource.GetDefaultView(Songs);
+        _songsView.Filter = FilterSong;
         AttachLibrary();
         IsLibraryOpen = true;
         OnPropertyChanged(nameof(Songs));
+        OnPropertyChanged(nameof(SongsView));
         OnPropertyChanged(nameof(Playlists));
     }
 
@@ -184,6 +203,20 @@ public class MainViewModel : BaseViewModel
     private void SaveLibrary()
     {
         _libraryService.Save(_library);
+    }
+
+    private bool FilterSong(object item)
+    {
+        if (item is not Song song || string.IsNullOrWhiteSpace(SearchText))
+        {
+            return true;
+        }
+
+        var query = SearchText.Trim().ToLowerInvariant();
+        return song.Title.ToLowerInvariant().Contains(query)
+            || song.Artist.ToLowerInvariant().Contains(query)
+            || song.Album.ToLowerInvariant().Contains(query)
+            || song.Year.ToString().Contains(query);
     }
 
     private static void SeedLabSongs(MusicLibrary library)
