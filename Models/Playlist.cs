@@ -1,5 +1,3 @@
-using System;
-using System.Collections.ObjectModel;
 using WpfApp3.Infrastructure;
 
 namespace WpfApp3.Models;
@@ -7,9 +5,7 @@ namespace WpfApp3.Models;
 public class Playlist : BaseViewModel
 {
     private string _name = "";
-    private byte[]? _coverArt;
-
-    public Guid Id { get; set; } = Guid.NewGuid();
+    private string? _coverPath;
 
     public string Name
     {
@@ -17,18 +13,9 @@ public class Playlist : BaseViewModel
         set => SetProperty(ref _name, value);
     }
 
-    public byte[]? CoverArt
+    public string? CoverPath
     {
-        get => _coverArt;
-        set => SetProperty(ref _coverArt, value);
-    }
-
-    public ObservableCollection<Song> Songs { get; } = new();
-
-    public int SongCount => Songs.Count;
-
-    public void RefreshSongCount()
-    {
-        OnPropertyChanged(nameof(SongCount));
+        get => _coverPath;
+        set => SetProperty(ref _coverPath, value);
     }
 }

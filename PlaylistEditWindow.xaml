@@ -1,14 +1,13 @@
 <Window x:Class="WpfApp3.PlaylistEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Playlist"
+        Title="New Playlist"
         Width="360"
         Height="220"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
     <Grid Margin="18">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -19,30 +18,48 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,16,0">
             <TextBlock Text="Name" FontWeight="SemiBold" />
-            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Height="30" Margin="0,6,0,0" />
+            <TextBox x:Name="NameTextBox"
+                     Height="30"
+                     Margin="0,6,0,0"
+                     TextChanged="NameTextBox_TextChanged" />
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Center">
-            <Border Width="80" Height="80" Background="#D6DAE2" CornerRadius="6" ClipToBounds="True">
+        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+            <Border Width="80"
+                    Height="80"
+                    Background="#D6DAE2"
+                    CornerRadius="6"
+                    ClipToBounds="True">
                 <Grid>
-                    <Image Source="{Binding CoverArt, Converter={StaticResource ByteArrayToImageConverter}}" Stretch="UniformToFill" />
-                    <TextBlock Text="No Cover"
+                    <Image x:Name="CoverImage" Stretch="UniformToFill" />
+                    <TextBlock x:Name="NoCoverText"
+                               Text="No Cover"
                                Foreground="#596273"
                                HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding HasCover, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=Invert}" />
+                               VerticalAlignment="Center" />
                 </Grid>
             </Border>
             <Button Content="Browse cover..."
-                    Command="{Binding BrowseCoverCommand}"
-                    Style="{StaticResource QuietButtonStyle}"
+                    Click="BrowseCover_Click"
                     Margin="0,10,0,0"
                     Padding="8,5" />
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Save" Command="{Binding SaveCommand}" Style="{StaticResource AccentButtonStyle}" MinWidth="74" Margin="0,0,8,0" />
-            <Button Content="Cancel" Command="{Binding CancelCommand}" Style="{StaticResource QuietButtonStyle}" MinWidth="74" />
+        <StackPanel Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button x:Name="SaveButton"
+                    Content="Save"
+                    Click="Save_Click"
+                    Style="{StaticResource AccentButtonStyle}"
+                    MinWidth="74"
+                    Margin="0,0,8,0"
+                    IsEnabled="False" />
+            <Button Content="Cancel"
+                    Click="Cancel_Click"
+                    MinWidth="74"
+                    Padding="12,6" />
         </StackPanel>
     </Grid>
 </Window>
