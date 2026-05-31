@@ -61,7 +61,10 @@ public class MainViewModel : BaseViewModel
 
         if (dialog.ShowDialog() == true)
         {
-            SetLibrary(_libraryService.CreateNew(dialog.FileName));
+            var library = _libraryService.CreateNew(dialog.FileName);
+            SeedLabSongs(library);
+            SetLibrary(library);
+            SaveLibrary();
         }
     }
 
@@ -181,5 +184,59 @@ public class MainViewModel : BaseViewModel
     private void SaveLibrary()
     {
         _libraryService.Save(_library);
+    }
+
+    private static void SeedLabSongs(MusicLibrary library)
+    {
+        if (library.Songs.Count > 0)
+        {
+            return;
+        }
+
+        library.Songs.Add(new Song
+        {
+            Id = 1,
+            Title = "Northern Lights",
+            Artist = "Ava Stone",
+            Album = "Night Walks",
+            Year = 2021,
+            Duration = "3:47"
+        });
+        library.Songs.Add(new Song
+        {
+            Id = 2,
+            Title = "Red Vinyl",
+            Artist = "The Glass Birds",
+            Album = "City Echoes",
+            Year = 2020,
+            Duration = "3:14"
+        });
+        library.Songs.Add(new Song
+        {
+            Id = 3,
+            Title = "Morning Static",
+            Artist = "Leon Hale",
+            Album = "Signals",
+            Year = 2022,
+            Duration = "4:11"
+        });
+        library.Songs.Add(new Song
+        {
+            Id = 4,
+            Title = "Soft Exit",
+            Artist = "Mira Vale",
+            Album = "Small Rooms",
+            Year = 2019,
+            Duration = "3:28"
+        });
+        library.Songs.Add(new Song
+        {
+            Id = 5,
+            Title = "Blue Arcade",
+            Artist = "Nova Lane",
+            Album = "Pixel Heart",
+            Year = 2023,
+            Duration = "3:56"
+        });
     }
 }
